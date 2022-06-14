@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model MyDachi
+
+<div class="text-center d-flex">
+    <div class="mx-5 d-flex">
+        <label asp-for="Fullness"></label>
+        <p>@Context.Session.GetInt32("Fullness")</p>
+    </div>
+
+    <div class="mx-5 d-flex">
+        <label asp-for="Happiness"></label>
+        <p>@Context.Session.GetInt32("Happiness")</p>
+    </div>
+
+    <div class="mx-5 d-flex">
+        <label asp-for="Meals"></label>
+        <p>@Context.Session.GetInt32("Meals")</p>
+    </div>
+
+    <div class="mx-5 d-flex">
+        <label asp-for="Energy"></label>
+        <p>@Context.Session.GetInt32("Energy")</p>
+    </div>
+    
+</div>
+
+<div class="text-center">
+    <img src="https://static.tvtropes.org/pmwiki/pub/images/tony_tony_chopper_anime.png" alt="chopper" height="200">
+</div>
+
+<div class="text-center">
+        <p>@Model.Status</p>
+    </div>
+
+<div class="text-center d-flex">
+    <form class="mx-5" asp-controller="Home" asp-action="Feed">
+        <input type="submit" value="Feed">
+    </form>
+    <form class="mx-5" asp-controller="Home" asp-action="Play">
+        <input type="submit" value="Play">
+    </form>
+    <form class="mx-5" asp-controller="Home" asp-action="Work">
+        <input type="submit" value="Work">
+    </form>
+    <form class="mx-5" asp-controller="Home" asp-action="Sleep">
+        <input type="submit" value="Sleep">
+    </form>
+</div>
