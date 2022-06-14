@@ -42,9 +42,9 @@ public class HomeController : Controller
     [HttpPost("feed")]
     public IActionResult Feed(MyDachi dachi)
     {
-        // Console.WriteLine("*Munching* *Burrrp*");
         Random rand = new Random();
         int? numOfMeals = HttpContext.Session.GetInt32("Meals");
+        int? randFullness = rand.Next(5,11);
         int? fullnessLvl = HttpContext.Session.GetInt32("Fullness");
         string? updateStatus = HttpContext.Session.GetString("Status");
         if (numOfMeals > 0)
@@ -53,14 +53,14 @@ public class HomeController : Controller
             if(chance == 0)
             {
                 numOfMeals--;
-                updateStatus = "I wasn't hungry though...";
+                updateStatus = $"I wasn't hungry though... -1 meals.";
                 HttpContext.Session.SetInt32("Meals", (int)numOfMeals);
                 HttpContext.Session.SetString("Status", updateStatus);
             } else
             {
                 numOfMeals--;
-                fullnessLvl += rand.Next(5,11);
-                updateStatus = "*Munch munch munch* Yummy!";
+                fullnessLvl += randFullness;
+                updateStatus = $"*Munch munch munch* Yummy! +{randFullness} fullness, -1 meals.";
                 HttpContext.Session.SetInt32("Meals", (int)numOfMeals);
                 HttpContext.Session.SetInt32("Fullness", (int)fullnessLvl);
                 HttpContext.Session.SetString("Status", updateStatus);
@@ -79,20 +79,21 @@ public class HomeController : Controller
         Random rand = new Random();
         int? energyLvl = HttpContext.Session.GetInt32("Energy");
         int? happinessLvl = HttpContext.Session.GetInt32("Happiness");
+        int? randHappiness = rand.Next(5,11);
         string? updateStatus = HttpContext.Session.GetString("Status");
         if (energyLvl > 0)
         {
             int chance = rand.Next(0,4);
             if (chance == 0){
                 energyLvl -= 5;
-                updateStatus = "I didn't really feel like playing though...";
+                updateStatus = $"I didn't really feel like playing though... -5 energy.";
                 HttpContext.Session.SetInt32("Energy", (int)energyLvl);
                 HttpContext.Session.SetString("Status", updateStatus);
             } else 
             {
                 energyLvl -= 5;
-                happinessLvl += rand.Next(5,11);
-                updateStatus = "So fun!  Yay!";
+                happinessLvl += randHappiness;
+                updateStatus = $"So fun!  Yay!  +{randHappiness} happiness, -5 energy.";
                 HttpContext.Session.SetInt32("Energy", (int)energyLvl);
                 HttpContext.Session.SetInt32("Happiness", (int)happinessLvl);
                 HttpContext.Session.SetString("Status", updateStatus);
@@ -111,13 +112,14 @@ public class HomeController : Controller
         Random rand = new Random();
         int? energyLvl = HttpContext.Session.GetInt32("Energy");
         int? numOfMeals = HttpContext.Session.GetInt32("Meals");
+        int? randMeals = rand.Next(1,4);
         string? updateStatus = HttpContext.Session.GetString("Status");
 
         if (energyLvl > 0)
         {
             energyLvl -= 5;
-            numOfMeals += rand.Next(1,4);
-            updateStatus = "Right! Let's do our best!";
+            numOfMeals += randMeals;
+            updateStatus = $"Right! Let's do our best! +{randMeals} meals, -5 energy.";
             HttpContext.Session.SetInt32("Energy", (int)energyLvl);
             HttpContext.Session.SetInt32("Meals", (int)numOfMeals);
             HttpContext.Session.SetString("Status", updateStatus);
@@ -146,6 +148,7 @@ public class HomeController : Controller
             HttpContext.Session.SetInt32("Energy", (int)energyLvl);
             HttpContext.Session.SetInt32("Fullness", (int)fullnessLvl);
             HttpContext.Session.SetInt32("Happiness", (int)happinessLvl);
+            HttpContext.Session.SetString("Status", updateStatus);
         } else
         {
             updateStatus = "Chopper has fainted from exhaustion...";
