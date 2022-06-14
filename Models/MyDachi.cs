@@ -4,7 +4,7 @@ public class MyDachi
     public int Happiness {get; set;}
     public int Meals {get; set;}
     public int Energy {get; set;}
-    public string? Status {get; set;}
+    public string Status {get; set;}
 
     public MyDachi()
     {

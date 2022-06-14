@@ -12,6 +12,7 @@ public class HomeController : Controller
         int? happiness = HttpContext.Session.GetInt32("Happiness");
         int? meals = HttpContext.Session.GetInt32("Meals");
         int? energy = HttpContext.Session.GetInt32("Energy");
+        string? status = HttpContext.Session.GetString("Status");
 
         if (fullness == null) 
         {
@@ -30,6 +31,11 @@ public class HomeController : Controller
             HttpContext.Session.SetInt32("Energy", dachi.Energy);
         }
 
+        if (status == null)
+        {
+            HttpContext.Session.SetString("Status", dachi.Status);
+        }
+
         return View("Index", dachi);
     }
     
@@ -38,19 +44,25 @@ public class HomeController : Controller
     {
         // Console.WriteLine("*Munching* *Burrrp*");
         Random rand = new Random();
-        if (dachi.Meals > 0)
+        int? numOfMeals = HttpContext.Session.GetInt32("Meals");
+        int? fullnessLvl = HttpContext.Session.GetInt32("Fullness");
+        string? updateStatus = HttpContext.Session.GetString("Status");
+        if (numOfMeals > 0)
         {
-            dachi.Meals -= 1;
-            dachi.Fullness += rand.Next(5,11);
-            dachi.Status = "*Munching* *Burrrp*";
+            numOfMeals--;
+            fullnessLvl += rand.Next(5,11);
+            updateStatus = "*Munch munch munch* Yummy!";
+            HttpContext.Session.SetInt32("Meals", (int)numOfMeals);
+            HttpContext.Session.SetInt32("Fullness", (int)fullnessLvl);
+            HttpContext.Session.SetString("Status", updateStatus);
         } else
         {
-            dachi.Status = "Wait, my bowl is empty.  :(";
+            updateStatus = "Wait, there's no meal...";
+            HttpContext.Session.SetString("Status", updateStatus);
         }
-        // Console.WriteLine(dachi.Meals);
-        // Console.WriteLine(dachi.Fullness);
         return RedirectToAction("Index");
     }
+    
     public string Play()
     {
         return "Play meh";
@@ -62,6 +74,13 @@ public class HomeController : Controller
     public string Sleep()
     {
         return "Sleep meh";
+    }
+
+    [HttpGet("clear")]
+    public IActionResult ClearSession()
+    {
+        HttpContext.Session.Remove("Reset");
+        return RedirectToAction("Index");
     }
 
     public IActionResult Privacy()
