@@ -34,17 +34,29 @@
         <p>@Context.Session.GetString("Status")</p>
     </div>
 
-<div class="text-center d-flex">
-    <form class="mx-5" asp-controller="Home" asp-action="Feed">
-        <input type="submit" value="Feed">
-    </form>
-    <form class="mx-5" asp-controller="Home" asp-action="Play">
-        <input type="submit" value="Play">
-    </form>
-    <form class="mx-5" asp-controller="Home" asp-action="Work">
-        <input type="submit" value="Work">
-    </form>
-    <form class="mx-5" asp-controller="Home" asp-action="Sleep">
-        <input type="submit" value="Sleep">
-    </form>
-</div>
+if(@Context.Session.GetInt32("Fullness") === 0 || @Context.Session.GetInt32("Happiness" === 0))
+{
+    @{
+        <form class="mx-5" asp-controller="Home" asp-action="Restart">
+            <input type="submit" value="Restart">
+        </form> 
+    }
+} else
+{
+    @{
+        <div class="text-center d-flex">
+            <form class="mx-5" asp-controller="Home" asp-action="Feed">
+                <input type="submit" value="Feed">
+            </form>
+            <form class="mx-5" asp-controller="Home" asp-action="Play">
+                <input type="submit" value="Play">
+            </form>
+            <form class="mx-5" asp-controller="Home" asp-action="Work">
+                <input type="submit" value="Work">
+            </form>
+            <form class="mx-5" asp-controller="Home" asp-action="Sleep">
+                <input type="submit" value="Sleep">
+            </form>
+        </div>
+    }
+}
